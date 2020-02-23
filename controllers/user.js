@@ -45,10 +45,41 @@ function saveUser(req, res) {
     } else {
         res.status(200).send({ message: '🙃 Password missing..!!'});
     }
+}
 
+function loginUser(req, res) {
+    var params = req.body;
+
+    var email = params.email;
+    var password = params.password;
+
+    User.findOne({email: email.toLowerCase()}, (err, user) => {
+        if (err) {
+            res.status(500).send({message: '🙃 Request error..!!'});
+        } else {
+            if (!user) {
+                res.status(404).send({message: "🙈 User doesn't exist"});
+            } else {
+                // check password! 👽
+                bcrypt.compare(password, user.password, function(err, check) {
+                    if (check) {
+                        // return user data
+                        if (params.getHash) {
+                            // return JWT 👽
+                        } else {
+                            res.status(200).send({user});
+                        }
+                    } else {
+                        res.status(404).send({message: "🙈 User can't log in"});
+                    }
+                });
+            }
+        }
+    });
 }
 
 module.exports = {
     test,
     saveUser,
+    loginUser,
 };
