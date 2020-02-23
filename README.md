@@ -12,3 +12,13 @@ docker run -d -p 27017-27019:27017-27019 --name mongodb-music mongo
 docker exec -ti mongodb-music bash
 ```
 - db name __music_db__
+
+### Install dependencies
+```
+yarn
+```
+
+### Run Server
+```
+yarn start
+```
