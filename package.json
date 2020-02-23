@@ -1,0 +1,8 @@
+{
+  "name": "api-music",
+  "version": "1.0.0",
+  "description": "API Rest with NodeJS for Music",
+  "main": "index.js",
+  "author": "Isaac Colls",
+  "license": "MIT"
+}
