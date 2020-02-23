@@ -86,7 +86,8 @@ function updateUser(req, res) {
     var userId = req.params.id;
     var update = req.body;
 
-    User.findByIdAndUpdate(userId, update, (err, userUpdated) => {
+    User.findAndModify({"_id": new ObjectId(userId)}, update, (err, userUpdated) => {
+    // User.findByIdAndUpdate(userId, update, (err, userUpdated) => { 😔 deprecated
         if (err) {
             res.status(504).send({message: '🙃 Updating user error..!!'});
         } else {
@@ -99,9 +100,41 @@ function updateUser(req, res) {
     });
 }
 
+function uploadImage(req, res) {
+    var userId = req.params.id;
+    var file_name = 'not loaded...';
+
+    if (req.files) {
+        var file_path = req.files.image.path;
+        var file_split = file_path.split('\/');
+        var file_name = file_split[2];
+        var ext_split = file_name.split('\.');
+        var file_ext = ext_split[1];
+
+        if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'gif') {
+            User.findByIdAndUpdate(userId, {image: file_name}, (err, userUpdated) => {
+                if (err) {
+                    res.status(504).send({message: '🙃 Updating user error..!!'});
+                } else {
+                    if (!userUpdated) {
+                        res.status(504).send({message: "😔 user couldn't be updated..!!"});
+                    } else {
+                        res.status(200).send({user: userUpdated});
+                    }
+                }
+            });
+        } else {
+            res.status(200).send({message: '🙈 Not valid file extension..!!'});
+        }
+    } else {
+        res.status(200).send({message: '🙄 Missing image..!!'});
+    }
+}
+
 module.exports = {
     test,
     saveUser,
     loginUser,
     updateUser,
+    uploadImage,
 };
