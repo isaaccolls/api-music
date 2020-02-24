@@ -88,8 +88,7 @@ function updateUser(req, res) {
     var userId = req.params.id;
     var update = req.body;
 
-    User.findAndModify({"_id": new ObjectId(userId)}, update, (err, userUpdated) => {
-    // User.findByIdAndUpdate(userId, update, (err, userUpdated) => { 😔 deprecated
+    User.findByIdAndUpdate(userId, update, (err, userUpdated) => {
         if (err) {
             res.status(504).send({message: '🙃 Updating user error..!!'});
         } else {
