@@ -42,7 +42,23 @@ function getArtists(req, res) {
             }
         }
     });
+}
 
+function updateArtist(req, res) {
+    var artistId = req.params.id;
+    var update = req.body;
+
+    Artist.findByIdAndUpdate(artistId, update, (err, artistUpdated) => {
+        if (err) {
+            res.status(500).send({message: "🙃 Error to update artist..!!"});
+        } else {
+            if (!artistUpdated) {
+                res.status(404).send({message: "🙃 Artist haven't been updated..!!"});
+            } else {
+                res.status(200).send({artist: artistUpdated});
+            }
+        }
+    });
 }
 
 function saveArtist(req, res) {
@@ -70,4 +86,5 @@ module.exports = {
     getArtist,
     saveArtist,
     getArtists,
+    updateArtist,
 };
