@@ -53,7 +53,7 @@ function updateArtist(req, res) {
             res.status(500).send({message: "🙃 Error to update artist..!!"});
         } else {
             if (!artistUpdated) {
-                res.status(404).send({message: "🙃 Artist haven't been updated..!!"});
+                res.status(404).send({message: "🙃 Artist hasn't been updated..!!"});
             } else {
                 res.status(200).send({artist: artistUpdated});
             }
