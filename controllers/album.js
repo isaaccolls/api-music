@@ -88,9 +88,38 @@ function updateAlbum(req, res) {
     })
 }
 
+function deleteAlbum(req, res) {
+    var albumId = req.params.id;
+
+    Album.findByIdAndRemove(albumId, (err, albumRemoved) => {
+        if (err) {
+            res.status(500).send({message: "🙃 Error to delete album..!!"});
+        } else {
+            if (!albumRemoved) {
+                res.status(404).send({message: "🙃 Album hasn't been deleted..!!"});
+            } else {
+                // res.status(200).send({albumRemoved});
+
+                Song.find({album: albumRemoved._id}).remove((err, songRemoved) => {
+                    if (err) {
+                        res.status(500).send({message: "🙃 Error to delete song..!!"});
+                    } else {
+                        if (!songRemoved) {
+                            res.status(404).send({message: "🙃 Song hasn't been deleted..!!"});
+                        } else {
+                            res.status(200).send({album: albumRemoved});
+                        }
+                    }
+                });
+            }
+        }
+    });
+}
+
 module.exports = {
     getAlbum,
     saveAlbum,
     getAlbums,
     updateAlbum,
+    deleteAlbum,
 };

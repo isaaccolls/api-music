@@ -69,7 +69,7 @@ function deleteArtist(req, res) {
             res.status(500).send({message: "🙃 Error to delete artist..!!"});
         } else {
             if (!artistRemoved) {
-                res.status(404).send({message: "🙃 Artist haven't been deleted..!!"});
+                res.status(404).send({message: "🙃 Artist hasn't been deleted..!!"});
             } else {
                 // res.status(200).send({artistRemoved});
 
@@ -78,7 +78,7 @@ function deleteArtist(req, res) {
                         res.status(500).send({message: "🙃 Error to delete album..!!"});
                     } else {
                         if (!albumRemoved) {
-                            res.status(404).send({message: "🙃 Album haven't been deleted..!!"});
+                            res.status(404).send({message: "🙃 Album hasn't been deleted..!!"});
                         } else {
                             // res.status(200).send({albumRemoved});
 
@@ -87,7 +87,7 @@ function deleteArtist(req, res) {
                                     res.status(500).send({message: "🙃 Error to delete song..!!"});
                                 } else {
                                     if (!songRemoved) {
-                                        res.status(404).send({message: "🙃 Song haven't been deleted..!!"});
+                                        res.status(404).send({message: "🙃 Song hasn't been deleted..!!"});
                                     } else {
                                         res.status(200).send({artist: artistRemoved});
                                     }
