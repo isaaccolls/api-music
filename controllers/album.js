@@ -24,6 +24,30 @@ function getAlbum(req, res) {
     });
 }
 
+function getAlbums(req, res) {
+    var artistId = req.params.artist;
+
+    if (!artistId) {
+        // get all albums from DB
+        var find = Album.find({}).sort('title');
+    } else {
+        // get albums from requested artist
+        var find = Album.find({artist: artistId}).sort('year');
+    }
+
+    find.populate({path: 'artist'}).exec((err, albums) => {
+        if (err) {
+            res.status(500).send({message: "🙃 Request error..!!"});
+        } else {
+            if (!albums) {
+                res.status(404).send({message: "🙃 There aren't albums..!!"});
+            } else {
+                res. status(200).send({albums});
+            }
+        }
+    });
+}
+
 function saveAlbum(req, res) {
     var album = new Album();
 
@@ -50,4 +74,5 @@ function saveAlbum(req, res) {
 module.exports = {
     getAlbum,
     saveAlbum,
+    getAlbums,
 };
