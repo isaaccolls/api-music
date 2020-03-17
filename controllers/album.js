@@ -116,10 +116,56 @@ function deleteAlbum(req, res) {
     });
 }
 
+function uploadImage(req, res) {
+    var albumId = req.params.id;
+    var file_name = 'not loaded...';
+
+    if (req.files) {
+        var file_path = req.files.image.path;
+        var file_split = file_path.split('\/');
+        var file_name = file_split[2];
+        var ext_split = file_name.split('\.');
+        var file_ext = ext_split[1];
+
+        if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'gif') {
+            Album.findByIdAndUpdate(albumId, {image: file_name}, (err, albumUpdated) => {
+                if (err) {
+                    res.status(504).send({message: '🙃 updating album error..!!'});
+                } else {
+                    if (!albumUpdated) {
+                        res.status(504).send({message: "😔 album couldn't be updated..!!"});
+                    } else {
+                        res.status(200).send({album: albumUpdated});
+                    }
+                }
+            });
+        } else {
+            res.status(200).send({message: '🙈 Not valid file extension..!!'});
+        }
+    } else {
+        res.status(200).send({message: '🙄 Missing image..!!'});
+    }
+}
+
+function getImageFile(req, res) {
+    var imageFile = req.params.imageFile;
+    var path_file = './uploads/albums/' + imageFile;
+
+    fs.exists(path_file, function(exists) {
+        if (exists) {
+            res.status(200).sendFile(path.resolve(path_file));
+        } else {
+            res.status(200).send({message: "🙄 Image doesn't exist..!!"});
+        }
+    });
+}
+
 module.exports = {
     getAlbum,
     saveAlbum,
     getAlbums,
     updateAlbum,
     deleteAlbum,
+    uploadImage,
+    getImageFile,
 };
