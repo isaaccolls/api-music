@@ -92,9 +92,26 @@ function updateSong(req, res) {
     });
 }
 
+function deleteSong(req, res) {
+    var songId = req.params.id;
+
+    Song.findByIdAndRemove(songId, (err, songRemoved) => {
+        if (err) {
+            res.status(500).send({message: "🙃 Error deleting song..!!"});
+        } else {
+            if (!songRemoved) {
+                res.status(404).send({message: "🙃 Song not removed..!!"});
+            } else {
+                res.status(200).send({song: songRemoved});
+            }
+        }
+    });
+}
+
 module.exports = {
     getSong,
     saveSong,
     getSongs,
     updateSong,
+    deleteSong,
 };
