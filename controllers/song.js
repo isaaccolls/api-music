@@ -64,7 +64,7 @@ function saveSong(req, res) {
 
     song.save((err, songStored) => {
         if (err) {
-            res.status(500).send({message: "🙃 Error when saving song..!!"});
+            res.status(500).send({message: "🙃 Error saving song..!!"});
         } else {
             if (!songStored) {
                 res.status(404).send({message: "🙃 Song not saved..!!"});
@@ -75,8 +75,26 @@ function saveSong(req, res) {
     });
 }
 
+function updateSong(req, res) {
+    var songId = req.params.id;
+    var update = req.body;
+
+    Song.findByIdAndUpdate(songId, update, (err, songUpdated) => {
+        if (err) {
+            res.status(500).send({message: "🙃 Error updating song..!!"});
+        } else {
+            if (!songUpdated) {
+                res.status(404).send({message: "🙃 Song not updated..!!"});
+            } else {
+                res.status(200).send({song: songUpdated});
+            }
+        }
+    });
+}
+
 module.exports = {
     getSong,
     saveSong,
     getSongs,
+    updateSong,
 };
