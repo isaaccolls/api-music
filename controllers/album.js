@@ -16,7 +16,7 @@ function getAlbum(req, res) {
             res.status(500).send({message: "🙃 Request error..!!"});
         } else {
             if (!album) {
-                res.status(404).send({message: "🙃 Album doesn't exist..!!"});
+                res.status(404).send({message: "🙃 Album not exist..!!"});
             } else {
                 res.status(200).send({album});
             }
@@ -63,7 +63,7 @@ function saveAlbum(req, res) {
             res.status(500).send({message: "🙃 Request error..!!"});
         } else {
             if (!albumStored) {
-                res.status(404).send({message: "🙃 Album doesn't saved..!!"});
+                res.status(404).send({message: "🙃 Album not saved..!!"});
             } else {
                 res.status(200).send({album: albumStored});
             }
@@ -80,7 +80,7 @@ function updateAlbum(req, res) {
             res.status(500).send({message: "🙃 Error to update album..!!"});
         } else {
             if (!albumUpdated) {
-                res.status(404).send({message: "🙃 Album hasn't been updated..!!"});
+                res.status(404).send({message: "🙃 Album not updated..!!"});
             } else {
                 res.status(200).send({album: albumUpdated});
             }
@@ -96,7 +96,7 @@ function deleteAlbum(req, res) {
             res.status(500).send({message: "🙃 Error to delete album..!!"});
         } else {
             if (!albumRemoved) {
-                res.status(404).send({message: "🙃 Album hasn't been deleted..!!"});
+                res.status(404).send({message: "🙃 Album not deleted..!!"});
             } else {
                 // res.status(200).send({albumRemoved});
 
@@ -105,7 +105,7 @@ function deleteAlbum(req, res) {
                         res.status(500).send({message: "🙃 Error to delete song..!!"});
                     } else {
                         if (!songRemoved) {
-                            res.status(404).send({message: "🙃 Song hasn't been deleted..!!"});
+                            res.status(404).send({message: "🙃 Song not deleted..!!"});
                         } else {
                             res.status(200).send({album: albumRemoved});
                         }
@@ -155,7 +155,7 @@ function getImageFile(req, res) {
         if (exists) {
             res.status(200).sendFile(path.resolve(path_file));
         } else {
-            res.status(200).send({message: "🙄 Image doesn't exist..!!"});
+            res.status(200).send({message: "🙄 Image not exist..!!"});
         }
     });
 }
