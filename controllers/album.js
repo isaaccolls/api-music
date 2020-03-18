@@ -16,7 +16,7 @@ function getAlbum(req, res) {
             res.status(500).send({message: "🙃 Request error..!!"});
         } else {
             if (!album) {
-                res.status(404).send({message: "🙃 Album not exist..!!"});
+                res.status(404).send({message: "🙃 Album not exists..!!"});
             } else {
                 res.status(200).send({album});
             }
@@ -155,7 +155,7 @@ function getImageFile(req, res) {
         if (exists) {
             res.status(200).sendFile(path.resolve(path_file));
         } else {
-            res.status(200).send({message: "🙄 Image not exist..!!"});
+            res.status(200).send({message: "🙄 Image not exists..!!"});
         }
     });
 }
