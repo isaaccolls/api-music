@@ -108,10 +108,56 @@ function deleteSong(req, res) {
     });
 }
 
+function uploadFile(req, res) {
+    var songId = req.params.id;
+    var file_name = 'not loaded...';
+
+    if (req.files) {
+        var file_path = req.files.file.path;
+        var file_split = file_path.split('\/');
+        var file_name = file_split[2];
+        var ext_split = file_name.split('\.');
+        var file_ext = ext_split[1];
+
+        if (file_ext == 'mp3' || file_ext == 'ogg') {
+            Song.findByIdAndUpdate(songId, {file: file_name}, (err, songUpdated) => {
+                if (err) {
+                    res.status(504).send({message: '🙃 error updating song..!!'});
+                } else {
+                    if (!songUpdated) {
+                        res.status(504).send({message: "😔 song couldn't be updated..!!"});
+                    } else {
+                        res.status(200).send({song: songUpdated});
+                    }
+                }
+            });
+        } else {
+            res.status(200).send({message: '🙈 Not valid file extension..!!'});
+        }
+    } else {
+        res.status(200).send({message: '🙄 Missing file..!!'});
+    }
+}
+
+function getSongFile(req, res) {
+    var songFile = req.params.songFile;
+    var path_file = './uploads/songs/' + songFile;
+
+    fs.exists(path_file, function(exists) {
+        if (exists) {
+            res.status(200).sendFile(path.resolve(path_file));
+        } else {
+            res.status(200).send({message: "🙄 audio file not exists..!!"});
+        }
+    });
+}
+
 module.exports = {
     getSong,
     saveSong,
     getSongs,
     updateSong,
     deleteSong,
+    uploadFile,
+    getSongFile,
 };
